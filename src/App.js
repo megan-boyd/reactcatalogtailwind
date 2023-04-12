@@ -179,7 +179,6 @@ const listItems = Products.map((el) => (
 
 
         return <div>
-        {console.log("Step 3 : in render_products ")}
         
           <h2 className="text-3xl font-extrabold tracking-tight text-gray-600 category-title">Products ({ProductsCategory.length})</h2>
     
@@ -254,6 +253,7 @@ const listItems = Products.map((el) => (
                       <p className = "mb-0 me-5 d-flex align-items-center">
                           <span className ="small text-muted me-2">Order total:</span>
                           <span className = "lead fw-normal">${cartTotal}</span>
+                          <button type='button' className='btn btn-danger m-4' onClick={e => changePageView("formValid")}>Proceed to Checkout</button>
                       </p>
                   </div>
               </div>
@@ -264,6 +264,147 @@ const listItems = Products.map((el) => (
   );
 
   }
+//                         
+
+  
+  
+  const render_formValid = () => {
+    return(
+      <div>
+       <br></br>
+       <br></br>
+       <br></br>
+       <br></br>
+    <div className = "container">
+
+    <div className="row">
+      <div className="col-2"></div>
+
+
+      <div className="col-8">
+
+        <h1>Javascript Form Validation</h1>
+
+        <div id="liveAlertPlaceholder"></div>
+
+        <form className="row g-3" id="checkout-form">
+
+          
+          <div className="col-md-6">
+            <label for="inputName" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="inputName"/>
+            <div className="valid-feedback">
+              Looks good!
+            </div>
+            <div className="invalid-feedback">
+              Must be like, "John Doe"
+            </div>
+          </div>
+
+      
+          <div className="col-md-6">
+            <label for="inputEmail4" class="form-label">Email</label>
+            <input type="email" class="form-control" id="inputEmail4"/>
+            <div className="valid-feedback">
+              Looks good!
+            </div>
+            <div className="invalid-feedback">
+              Must be like, "abc@xyz.efg"
+            </div>
+          </div>
+
+          
+          <div className="col-12">
+            <label for="inputCard" class="form-label">Card</label>
+            <div className="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1"><i className="bi-credit-card-fill"></i></span>
+              <input type="text" id="inputCard" className="form-control" placeholder="XXXX-XXXX-XXXX-XXXX"
+                aria-label="Username" aria-describedby="basic-addon1"/>
+              <div className="valid-feedback">
+                Looks good!
+              </div>
+              <div className="invalid-feedback">
+                Must be like, "7777-7777-7777-7777"
+              </div>
+            </div>
+          </div>
+
+          <div className="col-12">
+            <label for="inputAddress" className="form-label">Address</label>
+            <input type="text" className="form-control" id="inputAddress" placeholder="1234 Main St"/>
+          </div>
+          <div className="col-12">
+            <label for="inputAddress2" className="form-label">Address 2</label>
+            <input type="text" className="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor"/>
+          </div>
+          <div className="col-md-6">
+            <label for="inputCity" className="form-label">City</label>
+            <input type="text" className="form-control" id="inputCity"/>
+          </div>
+          <div className="col-md-4">
+            <label for="inputState" className="form-label">State</label>
+            <select id="inputState" className="form-select">
+              <option selected>Choose...</option>
+            </select>
+          </div>
+          <div className="col-md-2">
+            <label for="inputZip" className="form-label">Zip</label>
+            <input type="text" className="form-control" id="inputZip"/>
+          </div>
+          <div className="col-12">
+            <div className="form-check">
+              <input className="form-check-input" type="checkbox" id="gridCheck"/>
+              <label className="form-check-label" for="gridCheck">
+                Check me out
+              </label>
+            </div>
+          </div>
+          <div className="col-12">
+            <button type="submit" className="btn btn-success"> <i className="bi-bag-check"></i> Order</button>
+          </div>
+        </form>
+
+
+        <div className="card collapse">
+          <div className="card-body">
+            <h5 className="card-title">Order summary</h5>
+            <p className="card-text">Here is a summary of your order.</p>
+          </div>
+          <ul className="list-group list-group-flush">
+
+          </ul>
+          <a href="" onclick="location.reload()" class="btn btn-secondary"> <i class="bi-arrow-left-circle"></i>
+            Return</a>
+        </div>
+
+
+        <footer class="bd-footer py-4 py-md-5 mt-5 bg-light">
+          <div class="container py-4 py-md-5 px-4 px-md-3">
+            <div class="row">
+              <div class="col-lg-12 mb-3">
+                <b>SE/Com-S 319</b> Javascript form validation.
+              </div>
+
+            </div>
+          </div>
+        </footer>
+
+      </div>
+
+      <div class="col-2"></div>
+
+
+    </div>
+
+  </div>
+
+  
+  </div>
+  );
+  
+
+  }
+  
 
   if (pageView === "browse"){
     return (
@@ -281,8 +422,17 @@ const listItems = Products.map((el) => (
           </div>
       );
     }
+    
+    if(pageView === "formValid"){
+      return(
+        <div>
+        {render_nav_cart()};
+        {render_formValid()};
+        </div>
+      );
+    }
 
   
  
-
+  
 } //end App
