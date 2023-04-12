@@ -3,14 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import "bootstrap/dist/css/bootstrap.css";
 import {App} from './App';
-import Shop from './Shop';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <React.StrictMode>
     <App />
-   
   </React.StrictMode>
 );
 
@@ -18,17 +17,7 @@ root.render(
 
 
 
-const cartHolder = ReactDOM.createRoot(document.getElementById('cartHolder'));
  
-
-cartHolder.render(
-  
-  <React.StrictMode>
-    <Shop />
-  
-  </React.StrictMode>
-  
-);
 
 
 
