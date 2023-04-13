@@ -3,6 +3,10 @@ import logo from "./logo.png";
 import React, {useState, useEffect} from "react";
 import {Products} from "./Products"
 import {Categories} from "./Categories";
+//import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import "bootstrap/dist/css/bootstrap.css";
 
 import { findRenderedDOMComponentWithTag } from "react-dom/test-utils";
 //import {cart,setCart,removeFromCart,addToCart,el} from "./Shop"
@@ -15,16 +19,16 @@ const[cartTotal, setCartTotal] = useState([0]);
 const [ProductsCategory, setProductsCategory] = useState(Products);
 const [pageView, changePageView]= useState("browse");
 const [query, setQuery] = useState('');
-/*const [paymentInfo, setPaymentInfo] = useState([
-  name:'';
-  email:'';
-  card:'';
-  address:'';
-  city:'';
-  state:'';
-  zip:'';
-]);
-*/
+const [paymentInfo, setPaymentInfo] = useState({
+  name:'',
+  email:'',
+  card:'',
+  address:'',
+  city:'',
+  state:'',
+  zip:'',
+});
+
 
 useEffect(() => {
   total();
@@ -71,6 +75,8 @@ function howManyofThis(id){
   return hmot.length;
 }
 
+
+
 const listItems = Products.map((el) => (
   
   <div className = "row border-top border-bottom" key = {el.id}>
@@ -113,7 +119,7 @@ const listItems = Products.map((el) => (
     setProductsCategory(results);
      
   }
-
+  
   function handleClick(tag){
     let filtered = Products.filter(cat => cat.category === tag);
     setProductsCategory(filtered);
@@ -121,9 +127,9 @@ const listItems = Products.map((el) => (
   
   const render_nav_browse = (Categories) => {
     return(
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-      <div class="container-fluid">
-          <a class="navbar-brand" href="./index.html">P&P</a>
+    <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <div className="container-fluid">
+          <a className="navbar-brand" href="./index.html">P&P</a>
 
 
           <button type='button' className='btn btn-danger m-4' onClick={e => changePageView("cart")}>Checkout</button>
@@ -135,8 +141,8 @@ const listItems = Products.map((el) => (
           <button type = 'button' className ='btn btn-danger m-4' onClick={()=> handleClick('Pots')}>Pots</button>
       
 
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-              <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <div className="collapse navbar-collapse" id="navbarCollapse">
+              <ul className="navbar-nav me-auto mb-2 mb-md-0">
                 
                   
                  
@@ -149,18 +155,18 @@ const listItems = Products.map((el) => (
   )}
   const render_nav_cart = () => {
     return(
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-      <div class="container-fluid">
-          <a class="navbar-brand" href="./index.html">P&P</a>
+    <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <div className="container-fluid">
+          <a className="navbar-brand" href="./index.html">P&P</a>
 
 
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
               aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
+              <span className="navbar-toggler-icon"></span>
           </button>
           <button type='button' className='btn btn-danger m-4' onClick={e => changePageView("browse")}>Close</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-              <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <div className="collapse navbar-collapse" id="navbarCollapse">
+              <ul className="navbar-nav me-auto mb-2 mb-md-0">
                 
                  
                   
@@ -223,20 +229,31 @@ const listItems = Products.map((el) => (
             </div>
       </div>
     }
+
+    function displayCart(listItems){
+      return listItems.filter((cartItem, index) => listItems.indexOf(cartItem) === index);
+
+    }
+
+    
   const render_cart = () => {
     return (
        
        
       <div className = "cartHold">
-           
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br> 
           <div  >
+          
               <div >
                   <div >
                       <div className = "title">
                           <div className = "row">
                               <div className = "col">
                                   <h4>
-                                      <b>319 Shopping Cart</b>
+                                     
                                       <button type='button' className='btn btn-danger m-4' onClick={e => changePageView("browse")}>Close</button>
                                   </h4>
                               </div>
@@ -245,10 +262,34 @@ const listItems = Products.map((el) => (
 
                               </div>
                           </div>
-                      </div>
+                      </div> 
 
-                      <div>{listItems}</div>
-                  </div>
+          
+          {(displayCart(cart)).map((product, index) => (
+            <div className = "row border-top border-bottom" key = {index}>
+
+              <div className = "row main align-items-center">
+                    <div className = "col-2">
+                      <img className = "img-fluid" src = {require(`${product.image}`)} />
+
+                     </div>
+                  <div className = "col">
+                    <div className = "row text-muted">{product.title}</div>
+                     <div className = "row">{product.category}</div>
+
+                 </div>
+                 <div className = "col">
+                <button type = "button" variant = "light" onClick={() => removeFromCart(product)}> - </button>{" "}
+                 <button type = "button" variant = "light" onClick={() => addToCart(product)}> + </button>
+
+                </div>
+                  <div className = "col">
+                     ${product.price}<span className = "close">&#10005;</span>{howManyofThis(product.id)}
+    
+                    </div>
+                </div>
+            </div>))
+            }
                   <div className ="float-end">
                       <p className = "mb-0 me-5 d-flex align-items-center">
                           <span className ="small text-muted me-2">Order total:</span>
@@ -257,18 +298,135 @@ const listItems = Products.map((el) => (
                       </p>
                   </div>
               </div>
+              
           </div>
+          
       </div>
-  
+  </div>
     
   );
 
   }
 //                         
 
+function isNumeric(n){
+  return !isNaN(parseFloat(n)) && isFinite(n)
+
+}
+const cardNumberFunctionality = (e) => {
+  const inputCard = document.getElementById('inputCard');
+  if (!inputCard || !inputCard.value) {
+    return e.preventDefault() 
+  } else {
+    inputCard.value = inputCard.value.replace(/-/g, '')
+    let newVal = ''
+    for (var i = 0, nums = 0; i < inputCard.value.length; i++) {
+      if (nums !== 0 && nums % 4 === 0) {
+        newVal += '-'
+      }
+      newVal += inputCard.value[i]
+      if (isNumeric(inputCard.value[i])) {
+        nums++
+      }
+    }
+    inputCard.value = newVal
+  }
+}
+let validate = () => {
+  let val = true;
+  let payInfo = {
+    name: '',
+    email: '',
+    card: '',
+    address: '',
+    city: '',
+    state: '',
+    zip: 0
+  };
+  let name = document.getElementById('inputName');
+  let email = document.getElementById('inputEmail');
+  let card = document.getElementById('inputCard');
+  let address1 = document.getElementById('inputAddress');
+  let address2 = document.getElementById('inputAddress2');
+  let city = document.getElementById('inputCity');
+  let state = document.getElementById('inputState');
+  let zip = document.getElementById('inputZip');
+
+  if (!email.value.match(
+    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  )) {
+    email.setAttribute("className", "form-control is-invalid");
+    val = false;
+  }
+  else {
+    email.setAttribute("className", "form-control is-valid");
+    payInfo.email = email.value
+  }
+
+  if (name.value.length === 0) {
+    name.setAttribute("className", "form-control is-invalid")
+    val = false
+  }
+  else {
+    name.setAttribute("className", "form-control is-valid");
+    payInfo.name = name.value
+  }
+
+  if (!card.value.match(/^[0-9]{4}\-[0-9]{4}\-[0-9]{4}\-[0-9]{4}$/)) {
+    card.setAttribute("className", "form-control is-invalid")
+    val = false
+  }
+  else {
+    card.setAttribute("className", "form-control is-valid");
+    payInfo.card = card.value
+  }
+
+  if (!(zip.value.length === 5) || !isNumeric(zip.value)) {
+    zip.setAttribute("className", "form-control is-invalid")
+    val = false
+  }
+  else {
+    zip.setAttribute("className", "form-control is-valid");
+    payInfo.zip = zip.value
+  }
+
+  if (address1.value.length === 0) {
+    address1.setAttribute("className", "form-control is-invalid")
+    val = false
+  }
+  else {
+    address1.setAttribute("className", "form-control is-valid");
+    payInfo.address = address1.value + address2.value;
+  }
+
+  if (city.value.length === 0) {
+    city.setAttribute("className", "form-control is-invalid")
+    val = false
+  }
+  else {
+    city.setAttribute("className", "form-control is-valid");
+    payInfo.city = city.value;
+  }
+
+  if (state.value.length === 0) {
+    state.setAttribute("className", "form-control is-invalid")
+    val = false
+  }
+  else {
+    state.setAttribute("className", "form-control is-valid");
+    payInfo.state = state.value;
+  }
+
+  console.log(payInfo);
+  setPaymentInfo(payInfo);
+  return val;
+}
+
   
   
   const render_formValid = () => {
+
+
     return(
       <div>
        <br></br>
@@ -291,8 +449,8 @@ const listItems = Products.map((el) => (
 
           
           <div className="col-md-6">
-            <label for="inputName" class="form-label">Full Name</label>
-            <input type="text" class="form-control" id="inputName"/>
+            <label htmlFor = "inputName" className="form-label">Full Name</label>
+            <input type="text" className="form-control" id="inputName"/>
             <div className="valid-feedback">
               Looks good!
             </div>
@@ -303,8 +461,8 @@ const listItems = Products.map((el) => (
 
       
           <div className="col-md-6">
-            <label for="inputEmail4" class="form-label">Email</label>
-            <input type="email" class="form-control" id="inputEmail4"/>
+            <label htmlFor="inputEmail" className="form-label">Email</label>
+            <input type="email" className="form-control" id="inputEmail"/>
             <div className="valid-feedback">
               Looks good!
             </div>
@@ -315,11 +473,11 @@ const listItems = Products.map((el) => (
 
           
           <div className="col-12">
-            <label for="inputCard" class="form-label">Card</label>
+            <label htmlFor="inputCard" className="form-label">Card</label>
             <div className="input-group mb-3">
-              <span class="input-group-text" id="basic-addon1"><i className="bi-credit-card-fill"></i></span>
+              <span className="input-group-text" id="basic-addon1"><i className="bi-credit-card-fill"></i></span>
               <input type="text" id="inputCard" className="form-control" placeholder="XXXX-XXXX-XXXX-XXXX"
-                aria-label="Username" aria-describedby="basic-addon1"/>
+                aria-label="Username" aria-describedby="basic-addon1" onInput={e => cardNumberFunctionality(e)}/>
               <div className="valid-feedback">
                 Looks good!
               </div>
@@ -330,25 +488,24 @@ const listItems = Products.map((el) => (
           </div>
 
           <div className="col-12">
-            <label for="inputAddress" className="form-label">Address</label>
+            <label htmlFor="inputAddress" className="form-label">Address</label>
             <input type="text" className="form-control" id="inputAddress" placeholder="1234 Main St"/>
           </div>
           <div className="col-12">
-            <label for="inputAddress2" className="form-label">Address 2</label>
+            <label htmlFor="inputAddress2" className="form-label">Address 2</label>
             <input type="text" className="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor"/>
           </div>
           <div className="col-md-6">
-            <label for="inputCity" className="form-label">City</label>
+            <label htmlFor="inputCity" className="form-label">City</label>
             <input type="text" className="form-control" id="inputCity"/>
           </div>
           <div className="col-md-4">
-            <label for="inputState" className="form-label">State</label>
-            <select id="inputState" className="form-select">
-              <option selected>Choose...</option>
-            </select>
+            <label htmlFor="inputState" className="form-label">State</label>
+            <input type="text" className="form-control" id="inputState"/>
+
           </div>
           <div className="col-md-2">
-            <label for="inputZip" className="form-label">Zip</label>
+            <label htmlFor="inputZip" className="form-label">Zip</label>
             <input type="text" className="form-control" id="inputZip"/>
           </div>
           <div className="col-12">
@@ -360,7 +517,7 @@ const listItems = Products.map((el) => (
             </div>
           </div>
           <div className="col-12">
-            <button type="submit" className="btn btn-success"> <i className="bi-bag-check"></i> Order</button>
+            <button type="submit" className="btn btn-success" onClick = {e => {validate() ? changePageView("confirm") : alert("uh oh... double check payment method")}}> Order</button>
           </div>
         </form>
 
@@ -373,15 +530,15 @@ const listItems = Products.map((el) => (
           <ul className="list-group list-group-flush">
 
           </ul>
-          <a href="" onclick="location.reload()" class="btn btn-secondary"> <i class="bi-arrow-left-circle"></i>
+          <a href="" onClick="location.reload()" className="btn btn-secondary"> <i className="bi-arrow-left-circle"></i>
             Return</a>
         </div>
 
 
-        <footer class="bd-footer py-4 py-md-5 mt-5 bg-light">
-          <div class="container py-4 py-md-5 px-4 px-md-3">
-            <div class="row">
-              <div class="col-lg-12 mb-3">
+        <footer className="bd-footer py-4 py-md-5 mt-5 bg-light">
+          <div className="container py-4 py-md-5 px-4 px-md-3">
+            <div className="row">
+              <div className="col-lg-12 mb-3">
                 <b>SE/Com-S 319</b> Javascript form validation.
               </div>
 
@@ -391,7 +548,7 @@ const listItems = Products.map((el) => (
 
       </div>
 
-      <div class="col-2"></div>
+      <div className="col-2"></div>
 
 
     </div>
@@ -403,6 +560,109 @@ const listItems = Products.map((el) => (
   );
   
 
+  }
+
+
+  let cartItemsConfirm = () => {
+    return (
+      
+      <div className = "cartHold">
+        <br></br>   
+        <br></br>
+      
+      <div  >
+          <div >
+              <div >
+                  <div className = "title">
+                      <div className = "row">
+                          <div className = "col">
+                              <h4>
+                                  <b>CONFIRMATION</b>
+                                  <button type='button' className='btn btn-danger m-4' onClick={e => changePageView("browse")}>Close</button>
+                              </h4>
+                          </div>
+                          <div className = "col align-self-center text-right text-muted">
+                              Products selected{cart.length}
+
+                          </div>
+                      </div>
+                  </div>
+
+                  <div> {(displayCart(cart)).map((product, index) => (
+            <div className = "row border-top border-bottom" key = {index}>
+
+              <div className = "row main align-items-center">
+                    <div className = "col-2">
+                      <img className = "img-fluid" src = {require(`${product.image}`)} />
+
+                     </div>
+                  <div className = "col">
+                    <div className = "row text-muted">{product.title}</div>
+                     <div className = "row">{product.category}</div>
+
+                 </div>
+                 <div className = "col">
+                <button type = "button" variant = "light" onClick={() => removeFromCart(product)}> - </button>{" "}
+                 <button type = "button" variant = "light" onClick={() => addToCart(product)}> + </button>
+
+                </div>
+                  <div className = "col">
+                     ${product.price}<span className = "close">&#10005;</span>{howManyofThis(product.id)}
+    
+                    </div>
+                </div>
+            </div>))
+            }</div>
+              </div>
+              <div className ="float-end">
+                  <p className = "mb-0 me-5 d-flex align-items-center">
+                      <span className ="small text-muted me-2">Order total:</span>
+                      <span className = "lead fw-normal">${cartTotal}</span>
+                  </p>
+              </div>
+          </div>
+      </div>
+  </div>
+    );
+  }
+
+  const render_confirm = () => {
+    return (
+      <div>
+        <div>
+          <h1>
+            Confirmation
+          </h1>
+          <div>
+            <h2>Cart:</h2>
+            {cartItemsConfirm()}
+          </div>
+          <div className="row">
+            <div className="square">
+              <h2>Payment Info:</h2>
+              <h5 className='boldText'>Name:</h5>
+              <p className='indent'> {paymentInfo.name}</p>
+              <h5 className='boldText'>Email:</h5>
+              <p className='indent'> {paymentInfo.email}</p>
+              <h5 className='boldText'>Card:</h5>
+              <p className='indent'> {paymentInfo.card}</p>
+              <h5 className='boldText'>Address:</h5>
+              <p className='indent'> {paymentInfo.address}</p>
+              <h5 className='boldText'>City:</h5>
+              <p className='indent'> {paymentInfo.city}</p>
+              <h5 className='boldText'>State:</h5>
+              <p className='indent'> {paymentInfo.state}</p>
+              <h5 className='boldText'>Zip:</h5>
+              <p className='indent'> {paymentInfo.zip}</p>
+            </div>
+          </div>
+        </div>
+        <div className='text-center'>
+          <button type='button' className='btn btn-danger m-2' onClick={e => { setCart([]); changePageView("Browse"); }}>Cancel</button>
+          <button type='button' className='btn btn-danger m-2' onClick={e => { alert("Thank you for your order!"); setCart([]); changePageView("browse"); }}>Confirm</button>
+        </div>
+      </div>
+    );
   }
   
 
@@ -432,7 +692,19 @@ const listItems = Products.map((el) => (
       );
     }
 
+    if(pageView === "confirm"){
+      return(
+<div>
+        {render_nav_cart()};
+        {render_confirm()};
+</div>
+      )
+
+    }
+
   
- 
+
   
-} //end App
+} 
+
+//end App
