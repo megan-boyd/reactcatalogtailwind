@@ -1,9 +1,8 @@
 import "./App.css";
 import logo from "./logo.png";
 import React, {useState, useEffect} from "react";
-import {Products} from "./Products"
+import productsData from "./Products.json"
 import {Categories} from "./Categories";
-//import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import "bootstrap/dist/css/bootstrap.css";
@@ -12,7 +11,7 @@ import { findRenderedDOMComponentWithTag } from "react-dom/test-utils";
 
 
 export const App = () => {
-
+const Products = productsData.Products;
 const [cart, setCart]  = useState([]);
 const[cartTotal, setCartTotal] = useState([0]);
 const [ProductsCategory, setProductsCategory] = useState(Products);
@@ -152,6 +151,10 @@ const listItems = Products.map((el) => (
 
   </nav>
   )}
+
+  //after but
+  //          <button type='button' className='btn btn-danger m-4' onClick={e => changePageView("browse")}>Close</button>
+
   const render_nav_cart = () => {
     return(
     <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -163,7 +166,6 @@ const listItems = Products.map((el) => (
               aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
           </button>
-          <button type='button' className='btn btn-danger m-4' onClick={e => changePageView("browse")}>Close</button>
           <div className="collapse navbar-collapse" id="navbarCollapse">
               <ul className="navbar-nav me-auto mb-2 mb-md-0">
                 
@@ -353,11 +355,11 @@ let validate = () => {
 
 
 if (username.value.length === 0) {
-    username.setAttribute("className", "form-control is-invalid")
+    username.setAttribute("className", "invalid-feedback")
     value = false
   }
   else {
-    username.setAttribute("className", "form-control is-valid");
+    username.setAttribute("className", "valid-feedback");
     payInfo.username = username.value
   }
 
@@ -366,63 +368,63 @@ if (username.value.length === 0) {
   if (!email.value.match(
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   )) {
-    email.setAttribute("className", "form-control is-invalid");
+    email.setAttribute("className", "invalid-feedback");
     value = false;
   }
   else {
-    email.setAttribute("className", "form-control is-valid");
+    email.setAttribute("className", "valid-feedback");
     payInfo.email = email.value
   }
 
   
 
  if (!(zip.value.length === 5) || !isNumeric(zip.value)) {
-    zip.setAttribute("className", "form-control is-invalid")
+    zip.setAttribute("className", "invalid-feedback")
     value = false
   }
   else {
-    zip.setAttribute("className", "form-control is-valid");
+    zip.setAttribute("className", "valid-feedback");
     payInfo.zip = zip.value
   }
 
 
   if (!card.value.match(/^[0-9]{4}\-[0-9]{4}\-[0-9]{4}\-[0-9]{4}$/)) {
-    card.setAttribute("className", "form-control is-invalid")
+    card.setAttribute("className", "invalid-feedback")
     value = false
   }
   else {
-    card.setAttribute("className", "form-control is-valid");
+    card.setAttribute("className", "valid-feedback");
     payInfo.card = card.value
   }
 
  
   if (address1.value.length === 0) {
-    address1.setAttribute("className", "form-control is-invalid")
+    address1.setAttribute("className", "invalid-feedback")
     value = false
   }
   else {
-    address1.setAttribute("className", "form-control is-valid");
+    address1.setAttribute("className", "valid-feedback");
     payInfo.address = address1.value + address2.value;
   }
 
 
 
   if (state.value.length === 0) {
-    state.setAttribute("className", "form-control is-invalid")
+    state.setAttribute("className", "invalid-feedback")
     value = false
   }
   else {
-    state.setAttribute("className", "form-control is-valid");
+    state.setAttribute("className", "valid-feedback");
     payInfo.state = state.value;
   }
 
 
   if (city.value.length === 0) {
-    city.setAttribute("className", "form-control is-invalid")
+    city.setAttribute("className", "invalid-feedback")
     value = false
   }
   else {
-    city.setAttribute("className", "form-control is-valid");
+    city.setAttribute("className", "valid-feedback");
     payInfo.city = city.value;
   }
 
@@ -505,17 +507,17 @@ if (username.value.length === 0) {
             <label htmlFor="inputAddress2" className="form-label">Address 2</label>
             <input type="text" className="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor"/>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-5">
             <label htmlFor="inputCity" className="form-label">City</label>
             <input type="text" className="form-control" id="inputCity"/>
           </div>
-          <div className="col-md-4">
+          <div className="col-md-3">
             <label htmlFor="inputState" className="form-label">State</label>
             <input type="text" className="form-control" id="inputState"/>
 
           </div>
-          <div className="col-md-2">
-            <label htmlFor="inputZip" className="form-label">Zip</label>
+          <div className="col-md-4">
+            <label htmlFor="inputzip" className="form-label">Zip</label>
             <input type="text" className="form-control" id="inputZip"/>
           </div>
           <div className="col-12">
@@ -527,7 +529,7 @@ if (username.value.length === 0) {
             </div>
           </div>
           <div className="col-12">
-            <button type="submit" className="btn btn-success" onClick = {e => {validate() ? changePageView("confirm") : alert("uh oh... double check payment method")}}> Order</button>
+            <button type="submit" className="btn btn-success" onClick = {e => {validate() ? changePageView("confirm") : alert("uh oh... double check your information!!")}}> Order</button>
           </div>
         </form>
 
@@ -651,7 +653,7 @@ if (username.value.length === 0) {
             <div className="square">
               <h2>Payment Info:</h2>
               <h5 className='boldText'>Name:</h5>
-              <p className='indent'> {paymentInfo.name}</p>
+              <p className='indent'> {paymentInfo.username}</p>
               <h5 className='boldText'>Email:</h5>
               <p className='indent'> {paymentInfo.email}</p>
               <h5 className='boldText'>Card:</h5>
