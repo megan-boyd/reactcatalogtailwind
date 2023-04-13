@@ -9,7 +9,6 @@ import './index.css';
 import "bootstrap/dist/css/bootstrap.css";
 
 import { findRenderedDOMComponentWithTag } from "react-dom/test-utils";
-//import {cart,setCart,removeFromCart,addToCart,el} from "./Shop"
 
 
 export const App = () => {
@@ -20,7 +19,7 @@ const [ProductsCategory, setProductsCategory] = useState(Products);
 const [pageView, changePageView]= useState("browse");
 const [query, setQuery] = useState('');
 const [paymentInfo, setPaymentInfo] = useState({
-  name:'',
+  username:'',
   email:'',
   card:'',
   address:'',
@@ -181,7 +180,7 @@ const listItems = Products.map((el) => (
   </nav>
   )}
   const render_browse = (ProductsCategory) => { 
-    //
+    
 
 
         return <div>
@@ -333,7 +332,7 @@ const cardNumberFunctionality = (e) => {
   }
 }
 let validate = () => {
-  let val = true;
+  let value = true;
   let payInfo = {
     name: '',
     email: '',
@@ -343,7 +342,7 @@ let validate = () => {
     state: '',
     zip: 0
   };
-  let name = document.getElementById('inputName');
+  let username = document.getElementById('inputName');
   let email = document.getElementById('inputEmail');
   let card = document.getElementById('inputCard');
   let address1 = document.getElementById('inputAddress');
@@ -352,74 +351,85 @@ let validate = () => {
   let state = document.getElementById('inputState');
   let zip = document.getElementById('inputZip');
 
+
+if (username.value.length === 0) {
+    username.setAttribute("className", "form-control is-invalid")
+    value = false
+  }
+  else {
+    username.setAttribute("className", "form-control is-valid");
+    payInfo.username = username.value
+  }
+
+
+
   if (!email.value.match(
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   )) {
     email.setAttribute("className", "form-control is-invalid");
-    val = false;
+    value = false;
   }
   else {
     email.setAttribute("className", "form-control is-valid");
     payInfo.email = email.value
   }
 
-  if (name.value.length === 0) {
-    name.setAttribute("className", "form-control is-invalid")
-    val = false
-  }
-  else {
-    name.setAttribute("className", "form-control is-valid");
-    payInfo.name = name.value
-  }
+  
 
-  if (!card.value.match(/^[0-9]{4}\-[0-9]{4}\-[0-9]{4}\-[0-9]{4}$/)) {
-    card.setAttribute("className", "form-control is-invalid")
-    val = false
-  }
-  else {
-    card.setAttribute("className", "form-control is-valid");
-    payInfo.card = card.value
-  }
-
-  if (!(zip.value.length === 5) || !isNumeric(zip.value)) {
+ if (!(zip.value.length === 5) || !isNumeric(zip.value)) {
     zip.setAttribute("className", "form-control is-invalid")
-    val = false
+    value = false
   }
   else {
     zip.setAttribute("className", "form-control is-valid");
     payInfo.zip = zip.value
   }
 
+
+  if (!card.value.match(/^[0-9]{4}\-[0-9]{4}\-[0-9]{4}\-[0-9]{4}$/)) {
+    card.setAttribute("className", "form-control is-invalid")
+    value = false
+  }
+  else {
+    card.setAttribute("className", "form-control is-valid");
+    payInfo.card = card.value
+  }
+
+ 
   if (address1.value.length === 0) {
     address1.setAttribute("className", "form-control is-invalid")
-    val = false
+    value = false
   }
   else {
     address1.setAttribute("className", "form-control is-valid");
     payInfo.address = address1.value + address2.value;
   }
 
-  if (city.value.length === 0) {
-    city.setAttribute("className", "form-control is-invalid")
-    val = false
-  }
-  else {
-    city.setAttribute("className", "form-control is-valid");
-    payInfo.city = city.value;
-  }
+
 
   if (state.value.length === 0) {
     state.setAttribute("className", "form-control is-invalid")
-    val = false
+    value = false
   }
   else {
     state.setAttribute("className", "form-control is-valid");
     payInfo.state = state.value;
   }
 
+
+  if (city.value.length === 0) {
+    city.setAttribute("className", "form-control is-invalid")
+    value = false
+  }
+  else {
+    city.setAttribute("className", "form-control is-valid");
+    payInfo.city = city.value;
+  }
+
+
   console.log(payInfo);
   setPaymentInfo(payInfo);
-  return val;
+  return value;
 }
 
   
